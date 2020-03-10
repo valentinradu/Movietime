@@ -11,7 +11,7 @@ import Assets
 
 
 public struct Spinner: View {
-    @State private var ratio: Double = 0.0
+    @State private var progress: Double = 0.0
 
     private var animation: Animation {
         Animation
@@ -23,7 +23,7 @@ public struct Spinner: View {
     public var body: some View {
         GeometryReader { geometry in
             Group {
-                Ring(ratio: self.ratio)
+                Ring(progress: self.progress)
                     .stroke(Color.accentColor, lineWidth: 10)
                     .frame(width: 50, height: 50)
             }
@@ -31,7 +31,7 @@ public struct Spinner: View {
             .background(Color.white.opacity(0.8))
             .onAppear() {
                 withAnimation(self.animation) {
-                    self.ratio = 1.0
+                    self.progress = 1.0
                 }
             }
         }
@@ -39,18 +39,18 @@ public struct Spinner: View {
 }
 
 private struct Ring: Shape {
-    var ratio: Double
+    var progress: Double
     let lag = 0.25
 
     func path(in rect: CGRect) -> Path {
-        let end = ratio * 360
+        let end = progress * 360
         let start: Double
 
-        if ratio > (1 - lag) {
-            start = 360 * (2 * ratio - 1.0)
+        if progress > (1 - lag) {
+            start = 360 * (2 * progress - 1.0)
         }
-        else if ratio > lag {
-            start = 360 * (ratio - lag)
+        else if progress > lag {
+            start = 360 * (progress - lag)
         }
         else {
             start = 0
@@ -66,8 +66,8 @@ private struct Ring: Shape {
     }
 
     var animatableData: Double {
-        get { return ratio }
-        set { ratio = newValue }
+        get { return progress }
+        set { progress = newValue }
     }
 }
 

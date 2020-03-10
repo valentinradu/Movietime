@@ -17,6 +17,7 @@ public extension LocalizedStringKey {
     static let passwordAgain = LocalizedStringKey("Password again")
     static let createAccount = LocalizedStringKey("Create acccount")
     static let login = LocalizedStringKey("Login")
+    static let logout = LocalizedStringKey("Logout")
     static let recover = LocalizedStringKey("Recover your password")
     static let forgotPassword = LocalizedStringKey("I forgot my password")
     static let rememberedPassword = LocalizedStringKey("I know my password")

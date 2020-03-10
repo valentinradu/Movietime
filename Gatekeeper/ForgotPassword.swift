@@ -11,18 +11,18 @@ import Styles
 
 
 struct ForgotPasswordView: View {
-    @EnvironmentObject private var model: GatekeeperModel
+    @EnvironmentObject private var viewModel: GatekeeperViewModel
     var body: some View {
         VStack(alignment: .center, spacing: 80) {
             VStack(alignment: .center, spacing: 30) {
-                TextField(.email, text: $model.email)
+                TextField(.email, text: $viewModel.email)
             }
             VStack(alignment: .center, spacing: 20) {
-                model.recoverError.map { Text($0.errorDescription ?? "") }
-                Button(action: {self.model.recover()}) {
+                viewModel.recoverError.map { Text($0.errorDescription ?? "") }
+                Button(action: {self.viewModel.recover()}) {
                     Text(.recover)
                 }.buttonStyle(FilledFormButton())
-                Button(action: {self.model.page = .login}) { Text(.rememberedPassword) }
+                Button(action: {self.viewModel.page = .login}) { Text(.rememberedPassword) }
             }
         }
     }

@@ -12,21 +12,21 @@ import Styles
 
 
 struct LoginView: View {
-    @EnvironmentObject private var model: GatekeeperModel
+    @EnvironmentObject private var viewModel: GatekeeperViewModel
     
     var body: some View {
         VStack(alignment: .center, spacing: 80) {
             VStack(alignment: .center, spacing: 30) {
-                TextField(.email, text: self.$model.email)
-                SecureField(.password, text: self.$model.password)
+                TextField(.email, text: self.$viewModel.email)
+                SecureField(.password, text: self.$viewModel.password)
             }
             VStack(alignment: .center, spacing: 20) {
-                model.loginError.map { Text($0.errorDescription ?? "") }
-                Button(action: {self.model.login()}) {
+                viewModel.loginError.map { Text($0.errorDescription ?? "") }
+                Button(action: {self.viewModel.login()}) {
                     Text(.login)
                 }.buttonStyle(FilledFormButton())
-                Button(action: {self.model.page = .createAccount}) {Text(.createAccount)}
-                Button(action: {self.model.page = .forgotPassword}) {Text(.forgotPassword)}
+                Button(action: {self.viewModel.page = .createAccount}) {Text(.createAccount)}
+                Button(action: {self.viewModel.page = .forgotPassword}) {Text(.forgotPassword)}
             }
         }
     }

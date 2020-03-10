@@ -9,13 +9,13 @@
 import SwiftUI
 import Modifiers
 import Styles
-import Remotes
 import Combine
 import Components
+import Model
 
 
 public struct GatekeeperView: View {
-    @EnvironmentObject private var model: GatekeeperModel
+    @EnvironmentObject private var viewModel: GatekeeperViewModel
     @Environment(\.keyboard) private var keyboard: Keyboard
     public init() {}
     public var body: some View {
@@ -27,13 +27,13 @@ public struct GatekeeperView: View {
                         VStack {
                             Spacer(minLength: 20)
                             // poor man's switch...
-                            if self.model.page == .login {
+                            if self.viewModel.page == .login {
                                 LoginView()
                             }
-                            if self.model.page == .createAccount {
+                            if self.viewModel.page == .createAccount {
                                 CreateAccountView()
                             }
-                            if self.model.page == .forgotPassword {
+                            if self.viewModel.page == .forgotPassword {
                                 ForgotPasswordView()
                             }
                             Spacer(minLength: 20)
@@ -46,7 +46,7 @@ public struct GatekeeperView: View {
                     }
                 }
                 .frame(maxHeight: geometry.size.height - self.keyboard.height)
-                if self.model.isLoading {
+                if self.viewModel.isLoading {
                     Spinner()
                 }
             }
@@ -61,9 +61,11 @@ public struct GatekeeperView: View {
     }
 }
 
-
-public class GatekeeperModel: ObservableObject {
-    public init() {
+private var cancellables: Set<AnyCancellable> = []
+public class GatekeeperViewModel: ObservableObject {
+    private let model: Model
+    public init(model: Model) {
+        self.model = model
         $page
             .sink { _ in
                 self.registerError = nil
@@ -88,52 +90,38 @@ public class GatekeeperModel: ObservableObject {
     @Published var registerError: LocalizedError? = nil
     @Published var loginError: LocalizedError? = nil
     @Published var recoverError: LocalizedError? = nil
-    @Published public var user: User? = nil
 
-    private var cancellables: Set<AnyCancellable> = []
+    
     func register() {
         isLoading = true
-        User.register(firstName: firstName, lastName: lastName, email: email, password: password)
-            .receive(on: RunLoop.main)
-            .map({Optional($0)})
-            .catch({error -> Just<User?> in
-                self.registerError = error
-                return Just(nil)
-            })
-            .sink(receiveValue: { user in
-                self.user = user
+        model.user
+            .register(firstName: firstName, lastName: lastName, email: email, password: password)
+            .sink { [unowned self] error in
                 self.isLoading = false
-            })
+                self.registerError = error
+            }
             .store(in: &cancellables)
     }
 
     func login() {
         isLoading = true
-        User.login(email: email, password: password)
-            .receive(on: RunLoop.main)
-            .map({Optional($0)})
-            .catch({error -> Just<User?> in
-                self.loginError = error
-                return Just(nil)
-            })
-            .sink(receiveValue: { user in
-                self.user = user
+        model.user
+            .login(email: email, password: password)
+            .sink { [unowned self] error in
                 self.isLoading = false
-            })
+                self.loginError = error
+            }
             .store(in: &cancellables)
     }
 
     func recover() {
         isLoading = true
-        User.recoverPassword(email: email)
-            .receive(on: RunLoop.main)
-            .catch({error -> Just<Void> in
-                self.recoverError = error
-                return Just(())
-            })
-            .sink(receiveValue: { _ in
+        model.user
+            .recoverPassword(email: email)
+            .sink { [unowned self] error in
                 self.isLoading = false
-            })
+                self.recoverError = error
+            }
             .store(in: &cancellables)
     }
 }

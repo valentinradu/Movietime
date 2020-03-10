@@ -10,39 +10,40 @@ import SwiftUI
 import Gatekeeper
 import Dashboard
 import Modifiers
-import Remotes
 import Combine
+import Model
 
 
 struct MainView: View {
-    @EnvironmentObject private var model: MainModel
+    @EnvironmentObject private var viewModel: MainViewModel
     var body: some View {
         Group {
-            if model.user != nil {
+            if viewModel.isLoggedIn {
                 DashboardView()
-                    .environmentObject(model.dashboardModel)
+                    .environmentObject(viewModel.dashboardViewModel)
             }
             else {
                 GatekeeperView()
-                    .environmentObject(model.gatekeeperModel)
+                    .environmentObject(viewModel.gatekeeperViewModel)
             }
         }
         .modifier(KeyboardAwareModifier())
     }
 }
 
-class MainModel: ObservableObject {
-    @Published var user: User? = nil
 
-    let gatekeeperModel: GatekeeperModel = .init()
-    let dashboardModel: DashboardModel = .init()
+private var cancellables: Set<AnyCancellable> = []
+class MainViewModel: ObservableObject {
+    @Published var isLoggedIn: Bool = false
+    let gatekeeperViewModel: GatekeeperViewModel
+    let dashboardViewModel: DashboardViewModel
+    init(model: Model) {
+        self.gatekeeperViewModel = .init(model: model)
+        self.dashboardViewModel = .init(model: model)
 
-    private var cancellables: Set<AnyCancellable> = []
-    init() {
-        gatekeeperModel.$user
-            .sink { [weak self] user in
-                self?.user = user
-            }
+        model.user.$current
+            .map { $0 != nil }
+            .assign(to: \.isLoggedIn, on: self)
             .store(in: &cancellables)
     }
 }
