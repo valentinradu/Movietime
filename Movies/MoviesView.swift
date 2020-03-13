@@ -15,16 +15,37 @@ import Assets
 import Components
 import Combine
 
+private class ImageProvider: ObservableObject {
+    @Published var data: Data? = nil
+
+    private var cancellables: Set<AnyCancellable> = []
+    func load(url: URL) {
+        if url.scheme?.starts(with: "http") == true {
+            URLSession.shared.dataTaskPublisher(for: url)
+                .receive(on: RunLoop.main)
+                .map({ data, response in
+                    guard let res = response as? HTTPURLResponse else { return nil }
+                    guard 200..<300 ~= res.statusCode else { return nil }
+                    return Optional(data)
+                })
+                .catch({_ in Just(nil)})
+                .assign(to: \.data, on: self)
+                .store(in: &cancellables)
+        }
+    }
+}
 
 private struct MovieItem: View {
     let movie: Movie
-    @State var data: Data? = nil
+    @ObservedObject var provider: ImageProvider = .init()
     init(movie: Movie) {
         self.movie = movie
-        
+        if let url = URL(string: movie.poster) {
+            provider.load(url: url)
+        }
     }
     var body: some View {
-        let image = self.data.flatMap({r in UIImage(data: r, scale: 2)})
+        let image = self.provider.data.flatMap({r in UIImage(data: r, scale: 2)})
         return VStack {
             ZStack(alignment: .topTrailing) {
                 Rectangle()
@@ -39,7 +60,7 @@ private struct MovieItem: View {
             }.frame(height: 179)
             Text(verbatim: self.movie.title)
                 .foregroundColor(.lightText)
-                .font(.system(size: 16, weight: .light))
+                .font(.system(size: 12, weight: .light))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .scaledToFit()

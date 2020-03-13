@@ -37,13 +37,15 @@ public struct FlowView<Data, Content>: View where Data: RandomAccessCollection, 
         var offsets: [AnyHashable:CGSize] = [:]
         var size: CGSize = .zero
         var line: [AnyHashable] = []
+        var extraSpace: CGFloat = 0
         let minPadding: CGFloat = 20
         for (i, pref) in prefs.enumerated() {
             let diff = pref.parentSize.width - breakPoint.width - pref.selfSize.width - minPadding
             if i != 0 && diff < 0 {
                 let remainingSpace = pref.parentSize.width - breakPoint.width + minPadding
-                for key in line {
-                    offsets[key]?.width += remainingSpace / CGFloat(line.count)
+                extraSpace = remainingSpace / CGFloat(line.count)
+                for (j, key) in line.enumerated() {
+                    offsets[key]?.width +=  extraSpace * CGFloat(j + 1)
                 }
                 breakPoint.height += pref.selfSize.height + minPadding
                 breakPoint.width = 0
@@ -61,6 +63,10 @@ public struct FlowView<Data, Content>: View where Data: RandomAccessCollection, 
             size.width = max(breakPoint.width, size.width)
             size.height = max(breakPoint.height + pref.selfSize.height, size.height)
         }
+
+        for (j, key) in line.enumerated() {
+            offsets[key]?.width +=  extraSpace * CGFloat(j + 1)
+        }
         layout = Layout(offsets: offsets, size: size)
     }
 
@@ -73,7 +79,7 @@ public struct FlowView<Data, Content>: View where Data: RandomAccessCollection, 
         GeometryReader { geometry in
             ScrollView {
                 ZStack() {
-                    ForEach(self.data, id: \.self) { item in
+                    ForEach(self.data, id: \.hashValue) { item in
                         self.content(item)
                             .background(GeometryReader { bkgGeometry in
                                 Rectangle()
@@ -87,8 +93,10 @@ public struct FlowView<Data, Content>: View where Data: RandomAccessCollection, 
                                             item: AnyHashable(item))])
                             })
                             .offset(self.layout?.offsets[AnyHashable(item)] ?? .zero)
-                    }.frame(width: geometry.size.width, height: self.layout?.size.height ?? 0, alignment: .topLeading)
+                    }
                 }
+                .frame(width: geometry.size.width, height: self.layout?.size.height ?? 0, alignment: .topLeading)
+                .animation(.none)
             }
         }
         .onPreferenceChange(SizePreferenceKey.self, perform: {
