@@ -7,20 +7,24 @@
 //
 
 import SwiftUI
+import Styles
 
 
 struct MenuView: View {
     @EnvironmentObject private var viewModel: DashboardViewModel
     var body: some View {
         VStack {
-            Spacer()
+            Spacer().layoutPriority(1)
             HStack {
                 Text(viewModel.username)
-                Divider()
+                Divider().background(Color.lightBackground)
                 Button(action: {self.viewModel.logout()}) {
                     Text(.logout)
-                }
+                }.buttonStyle(TextButton())
+                Spacer()
             }
         }
+        .foregroundColor(.lightText)
+        .padding(20)
     }
 }

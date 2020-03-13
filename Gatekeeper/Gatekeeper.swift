@@ -94,7 +94,7 @@ public class GatekeeperViewModel: ObservableObject {
     
     func register() {
         isLoading = true
-        model.user
+        model
             .register(firstName: firstName, lastName: lastName, email: email, password: password)
             .sink { [unowned self] error in
                 self.isLoading = false
@@ -105,7 +105,7 @@ public class GatekeeperViewModel: ObservableObject {
 
     func login() {
         isLoading = true
-        model.user
+        model
             .login(email: email, password: password)
             .sink { [unowned self] error in
                 self.isLoading = false
@@ -116,7 +116,7 @@ public class GatekeeperViewModel: ObservableObject {
 
     func recover() {
         isLoading = true
-        model.user
+        model
             .recoverPassword(email: email)
             .sink { [unowned self] error in
                 self.isLoading = false

@@ -22,7 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        let model = Model()
+
+        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String else {
+          fatalError("API_KEY not set in config file. Please create Config.xcconfig and add API_KEY = YOUR_API_KEY in it")
+        }
+        let model = Model(apiKey: apiKey)
         let mainView = MainView()
         let mainModel = MainViewModel(model: model)
 

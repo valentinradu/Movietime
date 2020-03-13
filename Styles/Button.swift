@@ -41,3 +41,12 @@ public struct OutlinedFormButton: ButtonStyle {
         )
     }
 }
+
+public struct TextButton: ButtonStyle {
+    public init() {}
+    public func makeBody(configuration: Self.Configuration) -> some View {
+        let color: Color = configuration.isPressed ? .buttonPressed : .buttonNormal
+        return configuration.label
+            .foregroundColor(color)
+    }
+}

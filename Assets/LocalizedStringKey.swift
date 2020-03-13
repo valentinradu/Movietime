@@ -22,4 +22,5 @@ public extension LocalizedStringKey {
     static let forgotPassword = LocalizedStringKey("I forgot my password")
     static let rememberedPassword = LocalizedStringKey("I know my password")
     static let alreadyRegistered = LocalizedStringKey("I'm already registered")
+    static let searchMovie = LocalizedStringKey("Type any movie name")
 }

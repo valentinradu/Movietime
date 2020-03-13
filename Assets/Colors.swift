@@ -13,7 +13,9 @@ public extension Color {
     static let placeholder = Color("Placeholder")
     static let buttonNormal = Color("ButtonNormal")
     static let buttonPressed = Color("ButtonPressed")
+    static let lightText = Color("LightText")
     static let darkForeground = Color("DarkForeground")
     static let lightBackground = Color("LightBackground")
     static let darkBackground = Color("DarkBackground")
+    static let itemBackground = Color("ItemBackground")
 }

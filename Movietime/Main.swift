@@ -41,7 +41,7 @@ class MainViewModel: ObservableObject {
         self.gatekeeperViewModel = .init(model: model)
         self.dashboardViewModel = .init(model: model)
 
-        model.user.$current
+        model.$user
             .map { $0 != nil }
             .assign(to: \.isLoggedIn, on: self)
             .store(in: &cancellables)

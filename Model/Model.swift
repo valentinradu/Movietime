@@ -8,8 +8,28 @@
 
 import Foundation
 
+public struct User {
+    public let username: String
+}
 
-public struct Model {
-    public let user = UserModel()
-    public init() {}
+public struct Movie: Codable, Hashable {
+    public let title: String
+    public let year: String
+    public let poster: String
+
+    enum CodingKeys: String, CodingKey {
+        case title = "Title"
+        case year = "Year"
+        case poster = "Poster"
+    }
+}
+
+public class Model {
+    @Published public var user: User? = nil
+    @Published public var movies: [Movie] = []
+
+    let apiKey: String
+    public init(apiKey: String) {
+        self.apiKey = apiKey
+    }
 }

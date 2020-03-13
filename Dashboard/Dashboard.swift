@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Remotes
 import Movies
 import Components
 import Model
@@ -24,7 +23,7 @@ public struct DashboardView: View {
         }
     }
     private let tolerance: CGFloat = 0.2
-    private let overlap: CGFloat = 0.3
+    private let overlap: CGFloat = 0.2
 
     public init() {}
 
@@ -49,27 +48,32 @@ public struct DashboardView: View {
         let end: CGFloat = self.viewModel.isMenuOpen ? 0 : length
         let padding: CGFloat = 20
 
-        return ZStack() {
+        return ZStack(alignment: .topLeading) {
                 MenuView()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
                 VStack {
                     HStack {
                         Spacer()
                         MenuIcon(progress: progress)
                             .foregroundColor(.darkForeground)
-                            .offset(x: -progress * (length + padding))
+                            .offset(x: -progress * length)
                             .onTapGesture {
                                 self.viewModel.isMenuOpen.toggle()
                                 self.progress = end / length
                             }
                     }
-                    .padding(padding)
-                    MoviesList()
+                    Spacer(minLength: 20).layoutPriority(-1)
+                    MoviesView()
+                        .environmentObject(viewModel.moviesViewModel)
+                        .offset(x: progress * geometry.size.width * overlap)
                     Spacer()
                 }
+                .padding(padding)
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .background(Color.lightBackground.edgesIgnoringSafeArea(.all))
                 .offset(x: progress * length)
         }
+        .font(.system(size: 20, weight: .light))
         .background(Color.darkBackground.edgesIgnoringSafeArea(.all))
         .animation(.interactiveSpring())
         .gesture(dragGesture(start: start, end: end))
@@ -85,13 +89,17 @@ public struct DashboardView: View {
 
 private var cancellables: Set<AnyCancellable> = []
 public class DashboardViewModel: ObservableObject {
+    let moviesViewModel: MoviesViewModel
+
     @Published var isMenuOpen: Bool = false
     @Published var username: String = ""
 
     private var model: Model
     public init(model: Model) {
         self.model = model
-        model.user.$current
+        self.moviesViewModel = .init(model: model)
+
+        model.$user
             .sink {[unowned self] user in
                 self.username = user?.username ?? ""
             }
@@ -99,6 +107,6 @@ public class DashboardViewModel: ObservableObject {
     }
 
     func logout() {
-        model.user.current = nil
+        model.user = nil
     }
 }

@@ -12,12 +12,15 @@ import Combine
 
 public enum APIError: Error, LocalizedError {
     case unknown
+    case malformed
     case code(_ code: Int, message: String)
 
     public var errorDescription: String? {
         switch self {
         case .unknown:
             return "Unknown error"
+        case .malformed:
+            return "The server response was malformed"
         case .code(_, let reason):
             return reason
         }
