@@ -20,13 +20,13 @@ struct MainView: View {
         Group {
             if viewModel.isLoggedIn {
                 DashboardView()
-                    .environmentObject(viewModel.dashboardViewModel)
             }
             else {
                 GatekeeperView()
-                    .environmentObject(viewModel.gatekeeperViewModel)
             }
         }
+        .environmentObject(viewModel.dashboardViewModel)
+        .environmentObject(viewModel.gatekeeperViewModel)
         .modifier(KeyboardAwareModifier())
     }
 }
