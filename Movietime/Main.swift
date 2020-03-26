@@ -19,14 +19,12 @@ struct MainView: View {
     var body: some View {
         Group {
             if viewModel.isLoggedIn {
-                DashboardView()
+                DashboardView().environmentObject(viewModel.dashboardViewModel)
             }
             else {
-                GatekeeperView()
+                GatekeeperView().environmentObject(viewModel.gatekeeperViewModel)
             }
         }
-        .environmentObject(viewModel.dashboardViewModel)
-        .environmentObject(viewModel.gatekeeperViewModel)
         .modifier(KeyboardAwareModifier())
     }
 }

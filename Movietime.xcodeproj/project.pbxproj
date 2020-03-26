@@ -25,7 +25,8 @@
 		B043B701241A8B6F002F477C /* Assets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B078699D241664CD003EF18F /* Assets.framework */; };
 		B043B702241A8B6F002F477C /* Assets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B078699D241664CD003EF18F /* Assets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B043B706241AB258002F477C /* FlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B043B705241AB258002F477C /* FlowView.swift */; };
-		B043B707241AB567002F477C /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B07869D42416B355003EF18F /* Components.framework */; };
+		B0649726242CE49C003E0CBD /* Movies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F366DF2417BD98009C8692 /* Movies.framework */; };
+		B0649727242CE49C003E0CBD /* Movies.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B0F366DF2417BD98009C8692 /* Movies.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B078692324159C34003EF18F /* Gatekeeper.h in Headers */ = {isa = PBXBuildFile; fileRef = B078692124159C34003EF18F /* Gatekeeper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B078692624159C34003EF18F /* Gatekeeper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B078691F24159C34003EF18F /* Gatekeeper.framework */; };
 		B078692724159C34003EF18F /* Gatekeeper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B078691F24159C34003EF18F /* Gatekeeper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -83,8 +84,6 @@
 		B0F366E32417BD98009C8692 /* Movies.h in Headers */ = {isa = PBXBuildFile; fileRef = B0F366E12417BD98009C8692 /* Movies.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B0F366E62417BD98009C8692 /* Movies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F366DF2417BD98009C8692 /* Movies.framework */; };
 		B0F366E72417BD98009C8692 /* Movies.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B0F366DF2417BD98009C8692 /* Movies.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B0F366EB2417BDA8009C8692 /* Movies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F366DF2417BD98009C8692 /* Movies.framework */; };
-		B0F366EC2417BDA8009C8692 /* Movies.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B0F366DF2417BD98009C8692 /* Movies.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B0F366F02417BDF0009C8692 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F366EF2417BDF0009C8692 /* MoviesView.swift */; };
 		B0F366F22417E0FD009C8692 /* Wrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F366F12417E0FD009C8692 /* Wrappers.swift */; };
 		B0F366F42417EE34009C8692 /* MenuIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F366F32417EE34009C8692 /* MenuIcon.swift */; };
@@ -141,6 +140,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = B07869D32416B355003EF18F;
 			remoteInfo = Components;
+		};
+		B0649728242CE49C003E0CBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B09D8C9B2413B14300618223 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B0F366DE2417BD98009C8692;
+			remoteInfo = Movies;
 		};
 		B078692424159C34003EF18F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -247,13 +253,6 @@
 			remoteGlobalIDString = B0F366DE2417BD98009C8692;
 			remoteInfo = Movies;
 		};
-		B0F366ED2417BDA8009C8692 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B09D8C9B2413B14300618223 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B0F366DE2417BD98009C8692;
-			remoteInfo = Movies;
-		};
 		B0F366F72417EEB7009C8692 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B09D8C9B2413B14300618223 /* Project object */;
@@ -317,11 +316,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B0649727242CE49C003E0CBD /* Movies.framework in Embed Frameworks */,
 				B07869B0241665DA003EF18F /* Assets.framework in Embed Frameworks */,
 				B07869942416467B003EF18F /* Styles.framework in Embed Frameworks */,
 				B0F366F62417EEB7009C8692 /* Components.framework in Embed Frameworks */,
 				B07869902416467B003EF18F /* Modifiers.framework in Embed Frameworks */,
-				B0F366EC2417BDA8009C8692 /* Movies.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +347,7 @@
 		B043B6EC241A3A5B002F477C /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		B043B6EF241A78F9002F477C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B043B705241AB258002F477C /* FlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowView.swift; sourceTree = "<group>"; };
+		B0649725242CE1A2003E0CBD /* Movietime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Movietime.entitlements; sourceTree = "<group>"; };
 		B0786916241595C5003EF18F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B07869182415984A003EF18F /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		B078691F24159C34003EF18F /* Gatekeeper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Gatekeeper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -427,11 +427,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0649726242CE49C003E0CBD /* Movies.framework in Frameworks */,
 				B07869AF241665DA003EF18F /* Assets.framework in Frameworks */,
 				B07869932416467B003EF18F /* Styles.framework in Frameworks */,
 				B0F366F52417EEB7009C8692 /* Components.framework in Frameworks */,
 				B078698F2416467B003EF18F /* Modifiers.framework in Frameworks */,
-				B0F366EB2417BDA8009C8692 /* Movies.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,7 +480,6 @@
 				B043B701241A8B6F002F477C /* Assets.framework in Frameworks */,
 				B043B6FD241A8810002F477C /* Modifiers.framework in Frameworks */,
 				B043B6F9241A87DC002F477C /* Model.framework in Frameworks */,
-				B043B707241AB567002F477C /* Components.framework in Frameworks */,
 				B043B6F0241A87CD002F477C /* Styles.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,6 +614,7 @@
 		B09D8CA52413B14300618223 /* Movietime */ = {
 			isa = PBXGroup;
 			children = (
+				B0649725242CE1A2003E0CBD /* Movietime.entitlements */,
 				B09D8CC72413BEC600618223 /* Main.swift */,
 				B09D8CA62413B14300618223 /* AppDelegate.swift */,
 				B09D8CA82413B14300618223 /* SceneDelegate.swift */,
@@ -790,8 +790,8 @@
 				B07869922416467B003EF18F /* PBXTargetDependency */,
 				B07869962416467B003EF18F /* PBXTargetDependency */,
 				B07869B2241665DA003EF18F /* PBXTargetDependency */,
-				B0F366EE2417BDA8009C8692 /* PBXTargetDependency */,
 				B0F366F82417EEB7009C8692 /* PBXTargetDependency */,
+				B0649729242CE49C003E0CBD /* PBXTargetDependency */,
 			);
 			name = Dashboard;
 			productName = Dashboard;
@@ -912,7 +912,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Codewise Systems SRL";
 				TargetAttributes = {
 					B043814624183CE500446481 = {
@@ -1169,6 +1169,11 @@
 			target = B07869D32416B355003EF18F /* Components */;
 			targetProxy = B043B708241AB567002F477C /* PBXContainerItemProxy */;
 		};
+		B0649729242CE49C003E0CBD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B0F366DE2417BD98009C8692 /* Movies */;
+			targetProxy = B0649728242CE49C003E0CBD /* PBXContainerItemProxy */;
+		};
 		B078692524159C34003EF18F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B078691E24159C34003EF18F /* Gatekeeper */;
@@ -1244,11 +1249,6 @@
 			target = B0F366DE2417BD98009C8692 /* Movies */;
 			targetProxy = B0F366E42417BD98009C8692 /* PBXContainerItemProxy */;
 		};
-		B0F366EE2417BDA8009C8692 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B0F366DE2417BD98009C8692 /* Movies */;
-			targetProxy = B0F366ED2417BDA8009C8692 /* PBXContainerItemProxy */;
-		};
 		B0F366F82417EEB7009C8692 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B07869D32416B355003EF18F /* Components */;
@@ -1290,7 +1290,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Model;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1321,7 +1321,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Model;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1349,6 +1349,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Gatekeeper;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1376,6 +1377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Gatekeeper;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1404,7 +1406,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Styles;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1433,7 +1435,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Styles;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1516,7 +1518,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Modifiers;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1545,7 +1547,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Modifiers;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1574,7 +1576,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Assets;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1603,7 +1605,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Assets;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1633,7 +1635,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Components;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1664,7 +1666,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Components;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1792,6 +1794,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Movietime/Movietime.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Movietime/Preview Content\"";
 				DEVELOPMENT_TEAM = YEBVWK4Z2W;
@@ -1803,6 +1806,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Movietime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1814,6 +1818,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Movietime/Movietime.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Movietime/Preview Content\"";
 				DEVELOPMENT_TEAM = YEBVWK4Z2W;
@@ -1825,6 +1830,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Movietime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1852,7 +1858,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Movies;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1883,7 +1889,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.codewisesystems.Movies;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
