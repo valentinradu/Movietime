@@ -3,7 +3,7 @@
 //  Modifiers
 //
 //  Created by Valentin Radu on 10/03/2020.
-//  Copyright © 2020 Codewise Systems SRL. All rights reserved.
+//  Copyright © 2022 Valentin Radu. All rights reserved.
 //
 
 import Foundation
