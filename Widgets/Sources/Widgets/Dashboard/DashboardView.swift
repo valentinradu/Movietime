@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 struct DashboardView: View {
-    @EnvironmentObject private var viewModel: DashboardViewModel
+    @ObservedObject var state: DashboardState
     @State private var progress: CGFloat = 0 {
         didSet {
             if progress > 1 || progress < 0 {
@@ -28,7 +28,7 @@ struct DashboardView: View {
             .onChanged { progress = (start + $0.translation.width) / length }
             .onEnded { e in
                 if abs(start / length - progress) > tolerance {
-                    viewModel.isMenuOpen.toggle()
+                    state.isMenuOpen.toggle()
                     progress = end / length
                 } else {
                     progress = start / length
@@ -38,12 +38,12 @@ struct DashboardView: View {
 
     private func innerBody(_ geometry: GeometryProxy) -> some View {
         let length = geometry.size.width * (1 - overlap)
-        let start: CGFloat = viewModel.isMenuOpen ? length : 0
-        let end: CGFloat = viewModel.isMenuOpen ? 0 : length
+        let start: CGFloat = state.isMenuOpen ? length : 0
+        let end: CGFloat = state.isMenuOpen ? 0 : length
         let padding: CGFloat = 20
 
         return ZStack(alignment: .topLeading) {
-            MenuView()
+            MenuView(state: state)
                 .frame(width: geometry.size.width, height: geometry.size.height)
             VStack {
                 HStack {
@@ -52,12 +52,12 @@ struct DashboardView: View {
                         .foregroundColor(.darkForeground)
                         .offset(x: -progress * length)
                         .onTapGesture {
-                            viewModel.isMenuOpen.toggle()
+                            state.isMenuOpen.toggle()
                             progress = end / length
                         }
                 }
                 Spacer(minLength: 20).layoutPriority(-1)
-                MoviesView()
+                MoviesView(state: MoviesViewState())
                     .offset(x: progress * geometry.size.width * overlap)
                 Spacer()
             }
@@ -77,11 +77,4 @@ struct DashboardView: View {
             innerBody(geometry)
         }
     }
-}
-
-class DashboardViewModel: ObservableObject {
-    @Published var isMenuOpen: Bool = false
-    @Published var username: String = ""
-
-    func logout() {}
 }

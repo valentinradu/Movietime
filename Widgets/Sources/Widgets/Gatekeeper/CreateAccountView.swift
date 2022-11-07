@@ -9,23 +9,25 @@
 import SwiftUI
 
 struct CreateAccountView: View {
-    @EnvironmentObject private var viewModel: GatekeeperViewModel
+    @ObservedObject var state: GatekeeperState
+    @Environment(\.dispatch) private var dispatch
+
     var body: some View {
         VStack(alignment: .center, spacing: 80) {
             VStack(alignment: .center, spacing: 30) {
-                TextField(.firstName, text: $viewModel.firstName)
-                TextField(.lastName, text: $viewModel.lastName)
-                TextField(.email, text: $viewModel.email)
-                SecureField(.password, text: $viewModel.firstNewPassword)
-                SecureField(.passwordAgain, text: $viewModel.secondNewPassword)
+                TextField(.firstName, text: $state.firstName)
+                TextField(.lastName, text: $state.lastName)
+                TextField(.email, text: $state.email)
+                SecureField(.password, text: $state.firstNewPassword)
+                SecureField(.passwordAgain, text: $state.secondNewPassword)
             }
             VStack(alignment: .center, spacing: 20) {
-                viewModel.registerError.map { Text($0.errorDescription ?? "") }
-                Button(action: { viewModel.register() }) {
+                state.registerError.map { Text($0) }
+                Button(action: { dispatch(.register) }) {
                     Text(.createAccount)
                 }.buttonStyle(FilledFormButton())
-                Button(action: { viewModel.page = .login }) { Text(.alreadyRegistered) }
-                Button(action: { viewModel.page = .forgotPassword }) { Text(.forgotPassword) }
+                Button(action: { state.page = .login }) { Text(.alreadyRegistered) }
+                Button(action: { state.page = .forgotPassword }) { Text(.forgotPassword) }
             }
         }
     }

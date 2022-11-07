@@ -9,21 +9,26 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject private var viewModel: GatekeeperViewModel
+    @ObservedObject var state: GatekeeperState
+    @Environment(\.dispatch) private var dispatch
 
     var body: some View {
         VStack(alignment: .center, spacing: 80) {
             VStack(alignment: .center, spacing: 30) {
-                TextField(.email, text: $viewModel.email)
-                SecureField(.password, text: $viewModel.password)
+                TextField(.email, text: $state.email)
+                SecureField(.password, text: $state.password)
             }
             VStack(alignment: .center, spacing: 20) {
-                viewModel.loginError.map { Text($0.errorDescription ?? "") }
-                Button(action: { viewModel.login() }) {
+                state.loginError.map { Text($0) }
+                Button(action: { dispatch(.navigateTo(.login)) }) {
                     Text(.login)
                 }.buttonStyle(FilledFormButton())
-                Button(action: { viewModel.page = .createAccount }) { Text(.createAccount) }
-                Button(action: { viewModel.page = .forgotPassword }) { Text(.forgotPassword) }
+                Button(action: { state.page = .createAccount }) {
+                    Text(.createAccount)
+                }
+                Button(action: { state.page = .forgotPassword }) {
+                    Text(.forgotPassword)
+                }
             }
         }
     }

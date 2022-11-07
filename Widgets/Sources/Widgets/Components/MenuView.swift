@@ -9,14 +9,16 @@
 import SwiftUI
 
 struct MenuView: View {
-    @EnvironmentObject private var viewModel: DashboardViewModel
+    @ObservedObject var state: DashboardState
+    @Environment(\.dispatch) private var dispatch
+
     var body: some View {
         VStack {
             Spacer().layoutPriority(1)
             HStack {
-                Text(viewModel.username)
+                Text(state.username)
                 Divider().background(Color.lightBackground)
-                Button(action: { viewModel.logout() }) {
+                Button(action: { dispatch(.logout) }) {
                     Text(.logout)
                 }.buttonStyle(TextButton())
                 Spacer()

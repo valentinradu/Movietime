@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "hako",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/valentinradu/Hako.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "c39d081c18f1b561e5129100484008158040129e"
+      }
+    }
+  ],
+  "version" : 2
+}

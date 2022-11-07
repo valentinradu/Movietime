@@ -9,18 +9,20 @@
 import SwiftUI
 
 struct ForgotPasswordView: View {
-    @EnvironmentObject private var viewModel: GatekeeperViewModel
+    @ObservedObject var state: GatekeeperState
+    @Environment(\.dispatch) private var dispatch
+
     var body: some View {
         VStack(alignment: .center, spacing: 80) {
             VStack(alignment: .center, spacing: 30) {
-                TextField(.email, text: $viewModel.email)
+                TextField(.email, text: $state.email)
             }
             VStack(alignment: .center, spacing: 20) {
-                viewModel.recoverError.map { Text($0.errorDescription ?? "") }
-                Button(action: { viewModel.recover() }) {
+                state.recoverError.map { Text($0) }
+                Button(action: { dispatch(.navigateTo(.forgotPassword)) }) {
                     Text(.recover)
                 }.buttonStyle(FilledFormButton())
-                Button(action: { viewModel.page = .login }) {
+                Button(action: { state.page = .login }) {
                     Text(.rememberedPassword)
                 }
             }

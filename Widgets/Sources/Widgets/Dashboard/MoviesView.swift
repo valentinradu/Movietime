@@ -51,15 +51,15 @@ private struct MovieItem: View {
 }
 
 struct MoviesView: View {
-    @EnvironmentObject private var viewModel: MoviesViewModel
+    @ObservedObject var state: MoviesViewState
     @Environment(\.keyboard) private var keyboard: Keyboard
 
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                TextField(.searchMovie, text: $viewModel.searchTerm)
+                TextField(.searchMovie, text: $state.searchTerm)
                 Spacer(minLength: 20).layoutPriority(-1)
-                FlowView(data: viewModel.movies) { movie in
+                FlowView(data: state.movies) { movie in
                     MovieItem(movie: movie)
                 }
             }.frame(height: geometry.size.height - keyboard.height)
@@ -73,15 +73,4 @@ struct MoviesView: View {
             value: keyboard.height
         )
     }
-}
-
-struct MovieLens: Hashable {
-    let title: String
-    let year: String
-    let posterURL: URL
-}
-
-class MoviesViewModel: ObservableObject {
-    @Published var searchTerm: String = ""
-    @Published var movies: [MovieLens] = []
 }
