@@ -9,24 +9,23 @@
 import SwiftUI
 
 struct LoginView: View {
-    @ObservedObject var state: GatekeeperState
-    @Environment(\.dispatch) private var dispatch
+    @ObservedObject var store: GatekeeperStore
 
     var body: some View {
         VStack(alignment: .center, spacing: 80) {
             VStack(alignment: .center, spacing: 30) {
-                TextField(.email, text: $state.email)
-                SecureField(.password, text: $state.password)
+                TextField(.email, text: store.bind(\.email, to: GatekeeperMutation.updateEmail))
+                SecureField(.password, text: store.bind(\.password, to: GatekeeperMutation.updatePassword))
             }
             VStack(alignment: .center, spacing: 20) {
-                state.loginError.map { Text($0) }
-                Button(action: { dispatch(.navigateTo(.login)) }) {
+                store.state.loginError.map { Text($0) }
+                Button(action: { store.dispatch(.login) }) {
                     Text(.login)
                 }.buttonStyle(FilledFormButton())
-                Button(action: { state.page = .createAccount }) {
+                Button(action: { store.dispatch(.navigateTo(.createAccount)) }) {
                     Text(.createAccount)
                 }
-                Button(action: { state.page = .forgotPassword }) {
+                Button(action: { store.dispatch(.navigateTo(.forgotPassword)) }) {
                     Text(.forgotPassword)
                 }
             }

@@ -8,20 +8,26 @@
 
 import SwiftUI
 
-struct MainView: View {
-    @ObservedObject var state: WidgetsState
-    var body: some View {
+public struct MainView: View {
+    @ObservedObject var store: WidgetsStore
+
+    public init(store: WidgetsStore) {
+        self.store = store
+    }
+
+    public var body: some View {
         ZStack {
-            if state.isLoggedIn {
-                if let dashboardState = state.dashboardState {
-                    DashboardView(state: dashboardState)
+            if store.state.isLoggedIn {
+                Suspense(store.env.fetchDashboardEnv) { env in
+                    let dashboardStore = DashboardStore(state: .init(), env: env)
+                    DashboardView(store: dashboardStore)
                 }
             } else {
-                if let gatekeeperState = state.gatekeeperState {
-                    GatekeeperView(state: gatekeeperState)
+                Suspense(store.env.fetchGatekeeperEnv) { env in
+                    let gatekeeperStore = GatekeeperStore(state: .init(), env: env)
+                    GatekeeperView(store: gatekeeperStore)
                 }
             }
         }
-        .modifier(KeyboardAwareModifier())
     }
 }

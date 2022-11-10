@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 struct DashboardView: View {
-    @ObservedObject var state: DashboardState
+    @ObservedObject var store: DashboardStore
     @State private var progress: CGFloat = 0 {
         didSet {
             if progress > 1 || progress < 0 {
@@ -28,7 +28,7 @@ struct DashboardView: View {
             .onChanged { progress = (start + $0.translation.width) / length }
             .onEnded { e in
                 if abs(start / length - progress) > tolerance {
-                    state.isMenuOpen.toggle()
+                    store.dispatch(.toggleMenu)
                     progress = end / length
                 } else {
                     progress = start / length
@@ -38,12 +38,12 @@ struct DashboardView: View {
 
     private func innerBody(_ geometry: GeometryProxy) -> some View {
         let length = geometry.size.width * (1 - overlap)
-        let start: CGFloat = state.isMenuOpen ? length : 0
-        let end: CGFloat = state.isMenuOpen ? 0 : length
+        let start: CGFloat = store.state.isMenuOpen ? length : 0
+        let end: CGFloat = store.state.isMenuOpen ? 0 : length
         let padding: CGFloat = 20
 
         return ZStack(alignment: .topLeading) {
-            MenuView(state: state)
+            MenuView(store: store)
                 .frame(width: geometry.size.width, height: geometry.size.height)
             VStack {
                 HStack {
@@ -52,13 +52,17 @@ struct DashboardView: View {
                         .foregroundColor(.darkForeground)
                         .offset(x: -progress * length)
                         .onTapGesture {
-                            state.isMenuOpen.toggle()
+                            store.dispatch(.toggleMenu)
                             progress = end / length
                         }
                 }
                 Spacer(minLength: 20).layoutPriority(-1)
-                MoviesView(state: MoviesViewState())
-                    .offset(x: progress * geometry.size.width * overlap)
+                Suspense(store.env.fetchMoviesEnv) { env in
+                    let movieStore = MoviesStore(state: .init(), env: env)
+                    MoviesView(store: movieStore)
+                        .offset(x: progress * geometry.size.width * overlap)
+                }
+
                 Spacer()
             }
             .padding(padding)

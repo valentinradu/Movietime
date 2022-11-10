@@ -9,25 +9,28 @@
 import SwiftUI
 
 struct CreateAccountView: View {
-    @ObservedObject var state: GatekeeperState
-    @Environment(\.dispatch) private var dispatch
+    @ObservedObject var store: GatekeeperStore
 
     var body: some View {
         VStack(alignment: .center, spacing: 80) {
             VStack(alignment: .center, spacing: 30) {
-                TextField(.firstName, text: $state.firstName)
-                TextField(.lastName, text: $state.lastName)
-                TextField(.email, text: $state.email)
-                SecureField(.password, text: $state.firstNewPassword)
-                SecureField(.passwordAgain, text: $state.secondNewPassword)
+                TextField(.firstName, text: store.bind(\.firstName, to: GatekeeperMutation.updateFirstName))
+                TextField(.lastName, text: store.bind(\.lastName, to: GatekeeperMutation.updateLastName))
+                TextField(.email, text: store.bind(\.email, to: GatekeeperMutation.updateEmail))
+                SecureField(.password, text: store.bind(\.firstNewPassword, to: GatekeeperMutation.updateFirstNewPassword))
+                SecureField(.passwordAgain, text: store.bind(\.secondNewPassword, to: GatekeeperMutation.updateSecondNewPassword))
             }
             VStack(alignment: .center, spacing: 20) {
-                state.registerError.map { Text($0) }
-                Button(action: { dispatch(.register) }) {
+                store.state.registerError.map { Text($0) }
+                Button(action: { store.dispatch(.register) }) {
                     Text(.createAccount)
                 }.buttonStyle(FilledFormButton())
-                Button(action: { state.page = .login }) { Text(.alreadyRegistered) }
-                Button(action: { state.page = .forgotPassword }) { Text(.forgotPassword) }
+                Button(action: { store.dispatch(.navigateTo(.login)) }) {
+                    Text(.alreadyRegistered)
+                }
+                Button(action: { store.dispatch(.navigateTo(.forgotPassword)) }) {
+                    Text(.forgotPassword)
+                }
             }
         }
     }

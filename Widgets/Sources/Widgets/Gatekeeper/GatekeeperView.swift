@@ -9,49 +9,51 @@
 import Combine
 import SwiftUI
 
-struct GatekeeperView: View {
-    @ObservedObject var state: GatekeeperState
-    @Environment(\.keyboard) private var keyboard: Keyboard
+private struct GatekeeperPageView: View {
+    let page: GatekeeperState.Page
+    @ObservedObject var store: GatekeeperStore
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                ScrollView {
-                    HStack {
-                        Spacer(minLength: 20)
-                        VStack {
-                            Spacer(minLength: 20)
-                            switch state.page {
-                            case .login:
-                                LoginView(state: state)
-                            case .createAccount:
-                                CreateAccountView(state: state)
-                            case .forgotPassword:
-                                ForgotPasswordView(state: state)
-                            }
-                            Spacer(minLength: 20)
-                        }
-                        .frame(
-                            minWidth: 300,
-                            maxWidth: 400,
-                            minHeight: geometry.size.height - keyboard.height
-                        )
-                        Spacer(minLength: 20)
+        ZStack {
+            ScrollView {
+                ZStack {
+                    switch page {
+                    case .login:
+                        LoginView(store: store)
+                    case .createAccount:
+                        CreateAccountView(store: store)
+                    case .forgotPassword:
+                        ForgotPasswordView(store: store)
                     }
                 }
-                .frame(maxHeight: geometry.size.height - keyboard.height)
-                if state.isLoading {
-                    SpinnerView()
-                }
+                .textFieldStyle(UnderlinedTextFieldStyle())
+                .buttonStyle(OutlinedFormButton())
+                .font(.system(size: 20, weight: .light))
+                .padding(.all, 20)
             }
-            Spacer()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            if store.state.isLoading {
+                SpinnerView()
+            }
         }
-        .textFieldStyle(UnderlinedTextFieldStyle())
-        .buttonStyle(OutlinedFormButton())
-        .font(.system(size: 20, weight: .light))
-        .animation(
-            .linear(duration: Double(keyboard.animationDuration)),
-            value: keyboard.height
-        )
+        .navigationBarBackButtonHidden(true)
+    }
+}
+
+struct GatekeeperView: View {
+    @ObservedObject var store: GatekeeperStore
+
+    var body: some View {
+        NavigationStack(path: store.bind(\.pages, to: GatekeeperMutation.updatePages)) {
+            LoginView(store: store)
+                .navigationDestination(for: GatekeeperState.Page.self) { page in
+                    GatekeeperPageView(page: page, store: store)
+                }
+                .textFieldStyle(UnderlinedTextFieldStyle())
+                .buttonStyle(OutlinedFormButton())
+                .font(.system(size: 20, weight: .light))
+                .padding(.all, 20)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        }
     }
 }

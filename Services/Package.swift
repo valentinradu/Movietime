@@ -4,35 +4,26 @@
 import PackageDescription
 
 let package = Package(
-    name: "Widgets",
+    name: "Services",
     platforms: [.iOS(.v16)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "Widgets",
-            targets: ["Widgets"]
-        ),
+            name: "Services",
+            targets: ["Services"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/valentinradu/Hako.git", branch: "main"),
-        .package(name: "Services", path: "../Services")
+        // Dependencies declare other packages that this package depends on.
+        // .package(url: /* package url */, from: "1.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "Widgets",
-            dependencies: [
-                .byName(name: "Hako"),
-                .byName(name: "Services")
-            ],
-            resources: [
-                .process("Resources")
-            ]
-        ),
+            name: "Services",
+            dependencies: []),
         .testTarget(
-            name: "WidgetsTests",
-            dependencies: ["Widgets"]
-        ),
+            name: "ServicesTests",
+            dependencies: ["Services"]),
     ]
 )

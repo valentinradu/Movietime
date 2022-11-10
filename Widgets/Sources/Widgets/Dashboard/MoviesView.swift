@@ -10,6 +10,12 @@
 import Combine
 import SwiftUI
 
+private extension MoviesState {
+    var isMoviesAlertVisible: Bool {
+        searchErrorMessage != nil
+    }
+}
+
 private struct MovieItem: View {
     let movie: MovieLens
 
@@ -51,26 +57,26 @@ private struct MovieItem: View {
 }
 
 struct MoviesView: View {
-    @ObservedObject var state: MoviesViewState
-    @Environment(\.keyboard) private var keyboard: Keyboard
+    @ObservedObject var store: MoviesStore
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                TextField(.searchMovie, text: $state.searchTerm)
-                Spacer(minLength: 20).layoutPriority(-1)
-                FlowView(data: state.movies) { movie in
-                    MovieItem(movie: movie)
-                }
-            }.frame(height: geometry.size.height - keyboard.height)
-            Spacer(minLength: 0)
+        VStack {
+            TextField(.searchMovie, text: store.bind(\.searchTerm, to: MoviesMutation.updateSearch))
+            Spacer(minLength: 20).layoutPriority(-1)
+            FlowView(data: store.state.movies) { movie in
+                MovieItem(movie: movie)
+            }
         }
-        .textFieldStyle(UnderlinedTextFieldStyle())
-        .buttonStyle(OutlinedFormButton())
-        .font(.system(size: 20, weight: .light))
-        .animation(
-            .linear(duration: Double(keyboard.animationDuration)),
-            value: keyboard.height
-        )
+        .frame(maxWidth: .infinity)
+        .alert(
+            .moviesAlertTitle,
+            isPresented: store.bind(\.isMoviesAlertVisible, to: { _ in MoviesMutation.dismissAlert })
+        ) {
+            EmptyView()
+        } message: {
+            if let message = store.state.searchErrorMessage {
+                Text(message)
+            }
+        }
     }
 }

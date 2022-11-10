@@ -22,4 +22,6 @@ extension LocalizedStringKey {
     static let rememberedPassword = LocalizedStringKey("I know my password")
     static let alreadyRegistered = LocalizedStringKey("I'm already registered")
     static let searchMovie = LocalizedStringKey("Type any movie name")
+    static let recoverAlertTitle = LocalizedStringKey("Done")
+    static let moviesAlertTitle = LocalizedStringKey("Error")
 }
