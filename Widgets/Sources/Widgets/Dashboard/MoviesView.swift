@@ -24,7 +24,14 @@ private struct MovieItem: View {
             ZStack(alignment: .topTrailing) {
                 Rectangle()
                     .fill(Color.itemBackground)
-                AsyncImage(url: movie.posterURL)
+                AsyncImage(
+                    url: movie.posterURL,
+                    content: { image in
+                        image.image?
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    }
+                )
                 Text(verbatim: movie.year)
                     .padding(5)
                     .font(.system(size: 12, weight: .light))
@@ -34,7 +41,9 @@ private struct MovieItem: View {
                             .fill(Color.lightText)
                             .opacity(0.8)
                     }
-            }.frame(height: 179)
+            }
+            .frame(height: 179)
+            .clipped()
             Text(verbatim: movie.title)
                 .foregroundColor(.lightText)
                 .font(.system(size: 12, weight: .light))

@@ -41,6 +41,7 @@
 		B09D8CAF2413B14500618223 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B09D8CB22413B14500618223 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B09D8CB42413B14500618223 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0D54C822921A03A00D20B03 /* Store */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Store; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +67,7 @@
 		B09D8C9A2413B14300618223 = {
 			isa = PBXGroup;
 			children = (
+				B0D54C822921A03A00D20B03 /* Store */,
 				B01639CA291C6C8200311559 /* Services */,
 				B0734EB52916F5E00047C6A7 /* Widgets */,
 				B09D8CA52413B14300618223 /* Movietime */,

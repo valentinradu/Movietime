@@ -11,11 +11,13 @@ import SwiftUI
 
 extension Store {
     func bind<Value>(_ keyPath: KeyPath<S, Value>,
-                     to fn: @escaping (Value) -> Mutation<S, E>) -> Binding<Value> {
+                     to fn: @escaping (Value) -> Mutation<S, E>) -> Binding<Value> where Value: Equatable {
         Binding {
             self.state[keyPath: keyPath]
         } set: { newValue in
-            self.dispatch(fn(newValue))
+            if self.state[keyPath: keyPath] != newValue {
+                self.dispatch(fn(newValue))
+            }
         }
     }
 }

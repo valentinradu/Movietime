@@ -50,6 +50,8 @@ extension MoviesMutation where Self == MoviesMutation {
                             state.movies = movies.map(MovieLens.init)
                             return .noop
                         }
+                    } catch is CancellationError, RemoteServiceError.notFound {
+                        return .noop
                     } catch {
                         return Mutation { state in
                             state.searchErrorMessage = error.localizedDescription

@@ -7,60 +7,40 @@
 
 import Foundation
 
-public struct Movie: Codable, Hashable {
-    public let title: String
-    public let year: String
-    public let posterURL: URL
+public enum APIError: Error, LocalizedError {
+    case unknown
+    case malformed
+    case code(_ code: Int, message: String)
 
-    enum CodingKeys: String, CodingKey {
-        case title = "Title"
-        case year = "Year"
-        case posterURL = "Poster"
+    public var errorDescription: String? {
+        switch self {
+        case .unknown:
+            return "Unknown error"
+        case .malformed:
+            return "The server response was malformed"
+        case let .code(_, reason):
+            return reason
+        }
     }
 }
 
 public protocol RemoteServiceProtocol {
-    func register(firstName: String, lastName: String, email: String, password: String) async throws
-    func login(email: String, password: String) async throws
-    func forgotPassword(email: String) async throws
-    func searchMovies(with query: String) async throws -> [Movie]
+    func fetch<V>(_ request: URLRequest, of: V.Type) async throws -> V where V: Decodable
 }
 
-private struct SearchResponse: Codable {
-    let search: [Movie]
+public struct RemoteService: RemoteServiceProtocol {
+    public func fetch<V>(_ request: URLRequest, of: V.Type) async throws -> V where V: Decodable {
+        let (data, response) = try await URLSession.shared.data(for: request)
 
-    enum CodingKeys: String, CodingKey {
-        case search = "Search"
-    }
-}
+        guard let response = response as? HTTPURLResponse else { throw APIError.unknown }
+        guard 200 ..< 300 ~= response.statusCode else {
+            throw APIError.code(
+                response.statusCode,
+                message: String(data: data, encoding: .utf8) ?? ""
+            )
+        }
 
-public actor MainRemoteService: RemoteServiceProtocol {
-    // The session could hold the user token and be mutated as requied (i.e after login/register)
-    private let session: Session = .init()
-    private let apiKey: String
-
-    public init(apiKey: String) {
-        self.apiKey = apiKey
-    }
-
-    public func register(firstName: String, lastName: String, email: String, password: String) async throws {
-        try await Task.sleep(for: .seconds(1))
-    }
-
-    public func login(email: String, password: String) async throws {
-        try await Task.sleep(for: .seconds(1))
-    }
-
-    public func forgotPassword(email: String) async throws {
-        try await Task.sleep(for: .seconds(1))
-    }
-
-    public func searchMovies(with query: String) async throws -> [Movie] {
-        let host = "http://www.omdbapi.com"
-        let term = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
-        let url = URL(string: "\(host)/?apikey=\(apiKey)&s=\(term)")!
-        let request = URLRequest(url: url)
-        let response = try await session.fetch(request, of: SearchResponse.self)
-        return response.search
+        let decoder = JSONDecoder()
+        return try decoder.decode(V.self, from: data)
     }
 }
